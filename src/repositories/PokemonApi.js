@@ -18,4 +18,16 @@ export default class PokemonApi {
       return error;
     }
   }
+  static async getPokemonDetail(id) {
+    try {
+      const pokemonDetail = await AxiosInstance({
+        method: "get",
+        url: `/pokemon/${id}`,
+      });
+      return pokemonDetail.data;
+    } catch (error) {
+      console.log(error, "getPokemons");
+      return error;
+    }
+  }
 }
