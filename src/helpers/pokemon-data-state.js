@@ -3,9 +3,20 @@ export default async function getDataPokemon(
   str,
   pokemons,
   setNextPokemon,
-  setPokemons
+  setPokemons,
+  setIsLoading,
+  setIsError
 ) {
-  const pokemonData = await PokemonApi.getPokemons(str);
-  setNextPokemon(pokemonData.next);
-  setPokemons(pokemons.concat(pokemonData.results));
+  try {
+    setIsLoading(true);
+    setIsError(false);
+    const pokemonData = await PokemonApi.getPokemons(str);
+    setIsLoading(false);
+    setNextPokemon(pokemonData.next);
+    setPokemons(pokemons.concat(pokemonData.results));
+  } catch (error) {
+    setIsLoading(false);
+    setIsError(true);
+    console.log(error);
+  }
 }
