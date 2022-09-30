@@ -1,24 +1,46 @@
-import React, { useState, useEffect } from "react";
-import PokemonApi from "../repositories/PokemonApi";
+import React, { useState, useEffect, useRef } from "react";
+import getDataPokemon from "../helpers/pokemon-data-state";
 export default function PokemonListScreen() {
   const [pokemons, setPokemons] = useState([]);
+  const [nextPokemon, setNextPokemon] = useState(null);
+
+  function getPokemonData(str) {
+    getDataPokemon(str, pokemons, setNextPokemon, setPokemons);
+  }
+
   useEffect(() => {
-    // Update the document title using the browser API
-    //   document.title = `You clicked ${count} times`;
-    PokemonApi.getPokemons()
-      .then((pokemonData) => {
-        console.log(pokemonData, "pokemonData");
-        setPokemons(pokemonData.results);
-      })
-      .catch((e) => {
-        console.log(e, "Error useeffect");
-      });
+    (async function () {
+      getDataPokemon(null, pokemons, setNextPokemon, setPokemons);
+    })();
   }, []);
+
+  //https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png
+
   return (
     <div className="pokemon-list-container">
       {pokemons.map((poke, index) => {
-        return <p key={index}>{poke.name}</p>;
+        return (
+          <div key={index}>
+            <img
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+                poke.url.split("/")[poke.url.split("/").length - 2]
+              }.png`}
+              alt=""
+            />
+            <p>{poke.name}</p>
+          </div>
+        );
       })}
+      <div>
+        <button
+          disabled={nextPokemon ? false : true}
+          onClick={() => {
+            getPokemonData(nextPokemon);
+          }}
+        >
+          NEXT {nextPokemon}
+        </button>
+      </div>
     </div>
   );
 }
