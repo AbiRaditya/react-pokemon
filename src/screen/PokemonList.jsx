@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import getDataPokemon from "../helpers/pokemon-data-state";
 import Modal from "../components/Modal";
 import PokemonModal from "../components/PokemonModal";
+import PokemonCard from "../components/PokemonCard";
 
 export default function PokemonListScreen() {
   const [pokemons, setPokemons] = useState([]);
@@ -71,30 +72,15 @@ export default function PokemonListScreen() {
           }}
         ></PokemonModal>
       </Modal>
+
       {pokemons.map((poke, index) => {
         return (
-          <div
-            onClick={() => {
-              setSelectedPokemon(poke);
-              setIsModalOpen(true);
-            }}
-            className="pokemon__card"
-            key={index}
-          >
-            <img
-              className="pokemon__image"
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId(
-                poke.url
-              )}.png`}
-              alt=""
-            />
-            <div className="pokemon__information">
-              <p className="pokemon__id">
-                #{String(pokemonId(poke.url)).padStart(3, "0")}
-              </p>
-              <p className="pokemon__name">{poke.name}</p>
-            </div>
-          </div>
+          <PokemonCard
+            poke={poke}
+            setSelectedPokemon={setSelectedPokemon}
+            setIsModalOpen={setIsModalOpen}
+            pokemonId={pokemonId}
+          ></PokemonCard>
         );
       })}
       <div ref={lastPokemonElementRef}></div>
