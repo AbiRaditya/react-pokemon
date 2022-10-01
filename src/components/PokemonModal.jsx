@@ -8,13 +8,6 @@ const PokemonModal = ({ pokeId }) => {
   const pokemonId = pokeId();
   useEffect(() => {
     getDetailPokemon(pokemonId, setPokemonDetail, setIsLoading, setIsError);
-    // PokemonApi.getPokemonDetail(pokeId())
-    //   .then((data) => {
-    //     setPokemonDetail(data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error, "useEffect detail error");
-    //   });
   }, [pokemonId]);
 
   function renderSelectedPokemon() {
@@ -25,26 +18,42 @@ const PokemonModal = ({ pokeId }) => {
         <div>
           <div>{isLoading && "Loading..."}</div>
           <div>
-            <img
-              src={
-                isFront
-                  ? pokemonDetail?.sprites.front_default
-                  : pokemonDetail?.sprites.back_default
-              }
-              alt="pokemon"
-            />
-            <button
-              onClick={() => {
-                setIsFront(!isFront);
-              }}
-            >
-              ROTATE SPRITE
-            </button>
-            <p>{pokemonDetail?.name}</p>
-            <div>
-              {pokemonDetail?.types.map((type, index) => {
-                return <p key={index}>{type.type.name}</p>;
-              })}
+            <div className="pokemon-detail__sprite">
+              <img
+                src={
+                  isFront
+                    ? pokemonDetail?.sprites?.front_default
+                    : pokemonDetail?.sprites?.back_default
+                }
+                alt="pokemon"
+              />
+              <button
+                onClick={() => {
+                  setIsFront(!isFront);
+                }}
+              >
+                ROTATE SPRITE
+              </button>
+            </div>
+            <div className="pokemon-detail__information">
+              <div className="pokemon__types">
+                {pokemonDetail?.types?.map((type, index) => {
+                  return <p key={index}>{type.type.name}</p>;
+                })}
+              </div>
+              <div className="pokemon__abilities">
+                {pokemonDetail?.abilities?.map((ability, index) => {
+                  return <p key={index}>{ability.ability.name}</p>;
+                })}
+              </div>
+              <div className="pokemon__hweight">
+                <p>
+                  Height:{pokemonDetail?.height ? pokemonDetail?.height : "-"}
+                </p>
+                <p>
+                  Weight:{pokemonDetail?.weight ? pokemonDetail?.weight : "-"}
+                </p>
+              </div>
             </div>
           </div>
         </div>
