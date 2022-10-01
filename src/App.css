@@ -64,6 +64,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 0 25px 0 25px;
 }
 .pokemon__card {
   padding: 5px;
@@ -86,6 +87,7 @@
   padding: 20px;
   z-index: 1000;
   min-width: 500px;
+  border-radius: 5px;
 }
 .modal__overlay {
   position: fixed;
@@ -102,4 +104,41 @@
   padding: 1.25rem;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
+}
+.pokemon__information > p {
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: left;
+}
+.pokemon__id {
+  font-size: 10px;
+}
+.pokemon__name {
+  text-transform: capitalize;
+}
+.pokemon-detail__information {
+  display: flex;
+  justify-content: center;
+}
+.pokemon__types,
+.pokemon__abilities {
+  overflow: auto;
+  max-height: 200px;
+}
+.pokemon-detail__information .pokemon__types,
+.pokemon-detail__information .pokemon__abilities {
+  margin-right: 15px;
+}
+.pokemon-detail__information .pokemon__abilities,
+.pokemon-detail__information .pokemon__hweight {
+  margin-left: 15px;
+}
+.pokemon-detail__sprite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pokemon-detail__sprite img,
+.pokemon-detail__sprite button {
+  max-width: 150px;
 }

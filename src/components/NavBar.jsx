@@ -5,12 +5,12 @@ export default function NavBar() {
     <nav className="nav-bar-horizontal">
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">Pokedex</Link>
         </li>
         <li>{/* <a href="#news">News</a> */}</li>
         <li>{/* <a href="#contact">Contact</a> */}</li>
         <li>
-          <Link to="/about">About</Link>
+          <Link to="/my-pokemon">My Pokemon</Link>
         </li>
       </ul>
     </nav>
