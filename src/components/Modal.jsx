@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
 import ReactDom from "react-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
 
 const Modal = ({ open, children, onClose, modalTitle }) => {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
-      return () => (document.body.style.overflow = "unset");
+      document.body.style.paddingRight = "15px";
+      return () => {
+        document.body.style.paddingRight = "0px";
+        document.body.style.overflow = "unset";
+      };
     }
   }, [open]);
   if (!open) return null;
@@ -23,7 +29,10 @@ const Modal = ({ open, children, onClose, modalTitle }) => {
           >
             {modalTitle.name}
           </h3>
-          <button onClick={onClose}>Close</button>
+          <Button onClick={onClose} variant="contained">
+            {" "}
+            <CloseIcon />{" "}
+          </Button>
         </div>
         <div className="modal__body">{children}</div>
         <div className="modal__footer"></div>

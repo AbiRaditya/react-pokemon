@@ -6,11 +6,16 @@ import PokemonCard from "../components/PokemonCard";
 
 export default function PokemonListScreen() {
   const [pokemons, setPokemons] = useState([]);
-  const [nextPokemon, setNextPokemon] = useState(null);
+  // const [nextPokemon, setNextPokemon] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false); // eslint-disable-line
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  // let nextPokemonUrl = null;
+  const refUrl = useRef({
+    nextPokemonUrl: null,
+  });
 
   const observer = useRef();
   const lastPokemonElementRef = useCallback(
@@ -19,8 +24,8 @@ export default function PokemonListScreen() {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          if (nextPokemon) {
-            getPokemonData(nextPokemon);
+          if (refUrl.current.nextPokemonUrl) {
+            getPokemonData(refUrl.current.nextPokemonUrl);
           }
         }
       });
@@ -37,7 +42,9 @@ export default function PokemonListScreen() {
     getDataPokemon(
       str,
       pokemons,
-      setNextPokemon,
+      (url) => {
+        refUrl.current.nextPokemonUrl = url;
+      },
       setPokemons,
       setIsLoading,
       setIsError
@@ -45,15 +52,19 @@ export default function PokemonListScreen() {
   }
 
   useEffect(() => {
-    getDataPokemon(
-      null,
-      pokemons,
-      setNextPokemon,
-      setPokemons,
-      setIsLoading,
-      setIsError
-    );
-  }, []); // eslint-disable-line
+    if (!pokemons.length) {
+      getDataPokemon(
+        null,
+        pokemons,
+        (url) => {
+          refUrl.current.nextPokemonUrl = url;
+        },
+        setPokemons,
+        setIsLoading,
+        setIsError
+      );
+    }
+  }, [pokemons]); // eslint-disable-line
 
   //https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png
 
@@ -72,10 +83,10 @@ export default function PokemonListScreen() {
           }}
         ></PokemonModal>
       </Modal>
-
       {pokemons.map((poke, index) => {
         return (
           <PokemonCard
+            key={index}
             poke={poke}
             setSelectedPokemon={setSelectedPokemon}
             setIsModalOpen={setIsModalOpen}
@@ -83,7 +94,7 @@ export default function PokemonListScreen() {
           ></PokemonCard>
         );
       })}
-      <div ref={lastPokemonElementRef}></div>
+      {refUrl.current.nextPokemonUrl && <div ref={lastPokemonElementRef}></div>}
       <div>{isLoading && "Loading..."}</div>
     </div>
   );
