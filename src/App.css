@@ -86,7 +86,7 @@
   background-color: white;
   padding: 20px;
   z-index: 1000;
-  min-width: 500px;
+  min-width: 300px;
   border-radius: 5px;
 }
 .modal__overlay {
@@ -109,6 +109,11 @@
   margin-top: 0;
   margin-bottom: 0;
   text-align: left;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95px;
 }
 .pokemon__id {
   font-size: 10px;
@@ -141,4 +146,9 @@
 .pokemon-detail__sprite img,
 .pokemon-detail__sprite button {
   max-width: 150px;
+}
+.circular-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
